@@ -1,0 +1,106 @@
+<html>
+<head charset="UTF-8" lang="pt-br">
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<title>Challenge 1: Encriptador e desencriptador</title>
+
+<body>
+	<div class="principal">
+		<img class="logo_alura" src="vector.png">
+	</div>
+	<div class="div_texto">
+		<textarea name="texto_puro" id="texto_puro" class="texto_puro" cols="40" rows="10" placeholder="Digite seu texto"></textarea>
+	</div>
+	<div class="div_texto_transformado">
+		<div class="imagem_padrao_limpo" id="imagem_padrao_limpo"></div>
+		<div class="painel_texto_resultante" id="painel_texto_resultante">
+			<textarea name="texto_transformado" id="texto_transformado" class="texto_transformado" cols="23" rows="24"></textarea>
+			<button name="botao_copiar" id="botao_copiar" class="botao_copiar">Copiar</button>
+		</div>
+	</div>
+	<div class="barra_botoes">
+		<button name="botao_criptografar" id="botao_criptografar" class="botao_criptografar">Criptografar</button>
+		<button name="botao_descriptografar" id="botao_descriptografar" class="botao_descriptografar">Descriptografar</button>
+	</div>
+	<div name="rodape">
+		<footer>
+		  <p>Autor: Alisson Lisboa Ribeiro<br>
+		  <a href="mailto:alissonlisboaribeiro@gmail.com">alissonlisboaribeiro@gmail.com</a></p>
+		</footer>
+	</div>
+</body>
+<script type="text/javascript">
+
+	var texto_puro = 				document.querySelector("#texto_puro");
+	var texto_transformado= 		document.querySelector("#texto_transformado");
+	var painel_texto_resultante = 	document.querySelector("#painel_texto_resultante");
+	var acao_encriptar = 			document.querySelector("#botao_criptografar");
+	var acao_desencriptar = 		document.querySelector("#botao_descriptografar");
+	var acao_copiar = 				document.querySelector("#botao_copiar");
+
+	/*
+	A letra "e" é convertida para "enter"
+	A letra "i" é convertida para "imes"
+	A letra "a" é convertida para "ai"
+	A letra "o" é convertida para "ober"
+	A letra "u" é convertida para "ufat"
+	*/
+
+	function encriptar(){
+
+		var texto_convertido = '';
+
+		for (var i = 0; i < texto_puro.value.length; i++){
+			var texto_analisar = texto_puro.value.substr(i,1)
+			//A letra "a" é convertida para "ai"
+			if (texto_analisar == 'a'){ texto_analisar = "ai"; }
+			//A letra "e" é convertida para "enter"
+			if (texto_analisar == 'e'){ texto_analisar = "enter"; }
+			//A letra "i" é convertida para "imes"
+			if (texto_analisar == 'i'){ texto_analisar = "imes"; }
+			//A letra "o" é convertida para "ober"
+			if (texto_analisar == 'o'){ texto_analisar = "ober"; }
+			//A letra "u" é convertida para "ufat"
+			if (texto_analisar == 'u'){ texto_analisar = "ufat"; }			
+			
+			texto_convertido = texto_convertido + texto_analisar;
+			
+		}
+
+		texto_transformado.value = texto_convertido;
+		imagem_padrao_limpo.style.display = 'none';
+		painel_texto_resultante.style.display = 'inherit';
+	}
+
+	function desencriptar(){
+		var texto_convertido = texto_puro.value;
+
+		//A letra "a" é convertida para "ai"
+		//A letra "e" é convertida para "enter"
+		//A letra "i" é convertida para "imes"
+		//A letra "o" é convertida para "ober"
+		//A letra "u" é convertida para "ufat"
+
+		texto_convertido = texto_convertido.replaceAll('enter', 'e');
+		texto_convertido = texto_convertido.replaceAll('imes' , 'i');
+		texto_convertido = texto_convertido.replaceAll('ober' , 'o');
+		texto_convertido = texto_convertido.replaceAll('ufat' , 'u');
+		texto_convertido = texto_convertido.replaceAll('ai'   , 'a');
+
+		texto_transformado.value = texto_convertido;
+	}
+
+	function copiar(){
+		
+		texto_transformado.select();
+		document.execCommand("copy");
+		document.querySelector("#texto_puro").value = '';
+		document.querySelector("#texto_puro").focus();
+	}
+
+	document.querySelector("#texto_puro").focus();
+	acao_encriptar.onclick		= encriptar;
+	acao_desencriptar.onclick	= desencriptar;
+	acao_copiar.onclick			= copiar;
+</script>
+</html>
